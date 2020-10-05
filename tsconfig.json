@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "dist",
+    "noImplicitAny": true,
+    "allowJs": false,
+    "baseUrl": ".",
+    "target": "esnext",
+    "experimentalDecorators": true
+  },
+  "include": {
+    "include": ["./lib/*.ts"],
+    "exclude": ["node_modules"]
+  }
+}
