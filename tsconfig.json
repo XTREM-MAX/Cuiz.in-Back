@@ -2,15 +2,13 @@
   "compilerOptions": {
     "module": "commonjs",
     "sourceMap": true,
-    "outDir": "dist",
+    "outDir": "bin",
     "noImplicitAny": true,
     "allowJs": false,
     "baseUrl": ".",
     "target": "esnext",
     "experimentalDecorators": true
   },
-  "include": {
-    "include": ["./lib/*.ts"],
-    "exclude": ["node_modules"]
-  }
+  "include": ["./src/*", "src/database/models"],
+  "exclude": ["node_modules"]
 }
