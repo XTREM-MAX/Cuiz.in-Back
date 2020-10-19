@@ -1,1 +1,0 @@
-{"version":3,"file":"RouteIndex.js","sourceRoot":"","sources":["../../src/routers/RouteIndex.ts"],"names":[],"mappings":";;AAAA,mCAA4B;AAG5B,MAAM,UAAW,SAAQ,eAAK;IACrB,KAAK,CAAC,MAAM,CAAC,OAAgB,EAAE,QAAkB;QACtD,IAAI,CAAC,YAAY,CAAC,EAAE,eAAe,EAAE,0BAA0B,EAAE,CAAC,CAAC;IACrE,CAAC;CACF;AAED,kBAAe,UAAU,CAAC"}

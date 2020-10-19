@@ -1,1 +1,0 @@
-{"version":3,"file":"RouteRecipe.js","sourceRoot":"","sources":["../../src/routers/RouteRecipe.ts"],"names":[],"mappings":";;AAAA,mCAA4B;AAG5B,MAAM,WAAY,SAAQ,eAAK;IACtB,KAAK,CAAC,MAAM,CAAC,OAAgB,EAAE,QAAkB;QACtD,MAAM,OAAO,GAAG,MAAM,IAAI,CAAC,GAAG,CAAC,kBAAkB,EAAE,CAAC;QACpD,QAAQ,CAAC,IAAI,CAAC,OAAO,CAAC,CAAC;IACzB,CAAC;CACF;AAED,kBAAe,WAAW,CAAC"}
