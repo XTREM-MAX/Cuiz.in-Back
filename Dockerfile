@@ -5,7 +5,7 @@ EXPOSE 3000
 COPY . .
 
 RUN npm install
-RUN npm install typescript
+RUN npm install typescript -g
 
 RUN npm run tsc
 
