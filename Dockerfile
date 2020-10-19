@@ -7,7 +7,7 @@ WORKDIR /app
 COPY . .
 
 RUN npm install
-RUN npm install tsc -g
+RUN npm install typescript -g
 
 RUN tsc
 
