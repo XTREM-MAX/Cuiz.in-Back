@@ -6,7 +6,7 @@ abstract class Route {
     protected _db: Database
   ) { };
 
-  public abstract handle(request: HTTPRequest): void;
+  public abstract handle(request: HTTPRequest<unknown>): void;
 }
 
 export default Route;

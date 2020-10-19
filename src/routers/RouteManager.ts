@@ -1,6 +1,7 @@
 import Route from "./Route";
-import RouteRecipe from "./RouteRecipe";
+import RouteRecipe from "./routeRecipe/RouteRecipe";
 import RouteIndex from "./RouteIndex";
+import RouteRandomRecipe from "./routeRandomRecipe/RouteRandomRecipe";
 import { Router } from "express";
 import Database from "src/database/Database";
 import HTTPRequest from "./http/HTTPRequest";
@@ -33,6 +34,7 @@ class RouteManager {
     this.routes = {
       "/": new RouteIndex(this._db),
       "/recipe/:id": new RouteRecipe(this._db),
+      "/recipe/random": new RouteRandomRecipe(this._db),
     };
   }
 }
