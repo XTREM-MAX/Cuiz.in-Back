@@ -20,7 +20,7 @@ class Database {
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     dialect: "mysql",
-    logging: true
+    logging: false
   });
   
   private readonly User = this._generateModel<UserModel, UserDataModel>(UserModel as typeof DataModel);

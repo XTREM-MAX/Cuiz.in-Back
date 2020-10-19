@@ -1,4 +1,3 @@
-import * as createError from "http-errors";
 import * as express from "express";
 import * as path from "path";
 import * as cookieParser from 'cookie-parser';
@@ -9,7 +8,7 @@ import Database from "./database/Database";
 
 class App {
   public app: express.Application = express();
-  private _routeManager = new RouteManager("/");
+  private _routeManager: RouteManager = new RouteManager();
   private _database: Database;
 
   public async init() {
@@ -22,20 +21,18 @@ class App {
 
     this.app.use(express.static(path.join(__dirname, 'public')));
     
-    this._database = await this.initDatabase(); 
+    this._database = await this._initDatabase(); 
     
-    this._routeManager.init(this._database);
-    
-    console.log(this.app.routes);
-
-    this.app.listen(process.env.PORT ?? 3000, () => this.onListening());
+    await this._routeManager.init(this._database); 
+    this.app.use("/", this._routeManager.router);
+    // this.app.get("/", (req, res) => res.send("Test"));
+    this.app.listen(process.env.PORT ?? 3000, () => this._onListening());
   }
 
-  private initDatabase(): Promise<Database> {
+  private _initDatabase(): Promise<Database> {
     return new Database().init();
   }
-
-  private onListening() {
+  private _onListening() {
     console.log("Server started");
     console.log("Listening on port", process.env.PORT ?? 3000);
   }
