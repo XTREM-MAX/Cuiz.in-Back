@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
-import DataModel from "../decorator/DataModel";
-import ColumnDecorator from "../decorator/ColumnDecorator";
+import DataModel from "../../decorator/DataModel";
+import ColumnDecorator from "../../decorator/ColumnDecorator";
 import LikedRecipeDataModel from "./LikedRecipeDataModel";
 
 class LikedRecipeModel extends DataModel<LikedRecipeDataModel> implements LikedRecipeDataModel {

@@ -1,9 +1,7 @@
 import DeviceDataModel from "./DeviceDataModel";
-import { Model, DataTypes, Sequelize, ModelOptions } from "sequelize";
-import { SequelizeAttributes } from "../../../types";
-import DataModel from "../decorator/DataModel";
-import ColumnDecorator from "../decorator/ColumnDecorator";
-import { Col } from "sequelize/types/lib/utils";
+import { DataTypes } from "sequelize";
+import DataModel from "../../decorator/DataModel";
+import ColumnDecorator from "../../decorator/ColumnDecorator";
 
 class DeviceModel extends DataModel<DeviceDataModel> implements DeviceDataModel {
   @ColumnDecorator(DataTypes.INTEGER)

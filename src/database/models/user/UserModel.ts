@@ -1,8 +1,7 @@
 import UserDataModel from "./UserDataModel";
-import { Model, DataTypes, Sequelize, ModelOptions } from "sequelize";
-import { SequelizeAttributes } from "../../../types";
-import DataModel from "../decorator/DataModel";
-import ColumnDecorator from "../decorator/ColumnDecorator";
+import { DataTypes } from "sequelize";
+import DataModel from "../../decorator/DataModel";
+import ColumnDecorator from "../../decorator/ColumnDecorator";
 
 class UserModel extends DataModel<UserDataModel> implements UserDataModel {
   @ColumnDecorator(DataTypes.INTEGER, false, true, true)

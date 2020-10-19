@@ -1,6 +1,5 @@
-import UserDataModel from "./OauthDataModel";
-import DataModel from "../decorator/DataModel";
-import ColumnDecorator from "../decorator/ColumnDecorator";
+import DataModel from "../../decorator/DataModel";
+import ColumnDecorator from "../../decorator/ColumnDecorator";
 import OauthDataModel from "./OauthDataModel";
 import OauthType from "./OauthType";
 import { DataTypes } from "sequelize";
