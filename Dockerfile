@@ -2,11 +2,13 @@ FROM node:14.2
 
 EXPOSE 3000
 
+WORKDIR /app
+
 COPY . .
 
 RUN npm install
-RUN npm install tcs -g
+RUN npm install tsc -g
 
-RUN npm run tsc
+RUN tsc
 
 CMD nmp start
