@@ -25,9 +25,7 @@ class HTTPRequest<JSONBody> {
     let response: { [Key in keyof JSONBody]: boolean };
     let success: boolean = true;
     for (const expectedKey of expectedData) {
-      if (!(expectedKey in this.jsonBody)
-        || this.jsonBody[expectedKey] === null
-        || this.jsonBody[expectedKey] === undefined) {
+      if (this.jsonBody[expectedKey] == undefined) {
         response[expectedKey] = false;
         success = false;
       } else
