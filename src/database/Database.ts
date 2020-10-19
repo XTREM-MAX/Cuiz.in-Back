@@ -1,6 +1,6 @@
 import { Model, ModelCtor, ModelOptions, Sequelize } from "sequelize";
 import { SequelizeAttributes } from "src/types";
-import DataModel from './models/decorator/DataModel';
+import DataModel from './decorator/DataModel';
 import DeviceDataModel from "./models/device/DeviceDataModel";
 import LikedRecipeDataModel from "./models/likedRecipe/LikedRecipeDataModel";
 import LikedRecipeModel from "./models/likedRecipe/LikedRecipeModel";
