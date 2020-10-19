@@ -1,9 +1,9 @@
 import Route from "./Route";
-import { Request, Response } from "express";
+import HTTPRequest from "./http/HTTPRequest";
 
 class RouteIndex extends Route {
-  public async handle(request: Request, response: Response): Promise<void> {
-    this.jsonResponse({ welcome_message: "Welcome to API XTREM MAX" });
+  public async handle(request: HTTPRequest) {
+    request.sendJsonPayload({ welcome_message: "Welcome to API XTREM MAX" });
   }
 }
 

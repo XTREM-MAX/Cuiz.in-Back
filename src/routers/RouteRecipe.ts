@@ -1,10 +1,10 @@
 import Route from "./Route";
-import { Request, Response } from "express";
+import HTTPRequest from "./http/HTTPRequest";
 
 class RouteRecipe extends Route {
-  public async handle(request: Request, response: Response): Promise<void> {
+  public async handle(request: HTTPRequest) {
     const payload = await this._db.getAllLikedRecipes();
-    response.json(payload);
+    request.sendJsonPayload(payload);
   }
 }
 

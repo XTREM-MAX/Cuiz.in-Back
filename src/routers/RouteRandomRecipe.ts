@@ -1,8 +1,10 @@
 import Route from "./Route";
-import { Request, Response } from "express";
+import HTTPRequest from "./http/HTTPRequest";
 
-class RouteRandomRecipe implements Route {
-  public handle(request: Request, response: Response): void {
+class RouteRandomRecipe extends Route {
+  public handle(request: HTTPRequest) {
     
-  };
+  }
 }
+
+export default RouteRandomRecipe;
