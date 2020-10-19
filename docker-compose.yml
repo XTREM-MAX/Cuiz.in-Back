@@ -1,7 +1,7 @@
 version: "3"
 services:
     app:
-        image: ghcr.io/totodore/automate:latest #TODO: Changer le lien de l'image
+        image: ghcr.io/xtrem-max/cuizin-back:main
         container_name: cuizin-back
         tty: true
         ports:
