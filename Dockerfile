@@ -5,8 +5,8 @@ EXPOSE 3000
 COPY . .
 
 RUN npm install
-RUN npm install typescript sass
+RUN npm install typescript
 
-RUN tsc
+RUN npm run tsc
 
 CMD nmp start
