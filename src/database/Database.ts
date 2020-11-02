@@ -42,12 +42,20 @@ class Database {
     return this._sequelize.define<T, V>(className.substr(0, className.length-5), model.prototype.model as SequelizeAttributes<V>, this._options); 
   }
 
-  public getAllLikedRecipes(): Promise<LikedRecipeModel[]> {
-    return this.LikedRecipe.findAll();
+  public getAllLikedRecipes(userId: string): Promise<LikedRecipeModel[]> {
+    return this.LikedRecipe.findAll({ where: { user_id: userId } });
   }
 
-  public getLikedRecipe(recipeId: number): Promise<LikedRecipeModel> {
-    return this.LikedRecipe.findOne({where: {recipe_id: recipeId}});
+  public getLikedRecipe(recipeId: string, userId: string): Promise<LikedRecipeDataModel> {
+    return this.LikedRecipe.findOne({ where: { recipe_id: recipeId, user_id: userId } });
+  }
+
+  public addLikedRecipe(recipe: LikedRecipeDataModel): Promise<LikedRecipeDataModel> {
+    return this.LikedRecipe.create(recipe);
+  }
+
+  public removeLikedRecipe(id: string, userId: string) {
+    return this.LikedRecipe.destroy({ where: { recipe_id: id, user_id: userId } });
   }
 }
 

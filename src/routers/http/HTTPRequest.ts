@@ -9,10 +9,11 @@ class HTTPRequest<JSONBody> {
     private _response: Response,
     private _route: Route
   ) {
-    this.jsonBody = this.request.body;
+    this.jsonBody = { ...this.request.body, ...this.request.query };
   }
 
   public handleRequest() {
+    console.log("Params", this.jsonBody);
     this._route.handle(this);
   }
 
@@ -21,8 +22,8 @@ class HTTPRequest<JSONBody> {
    * Renvoie un object avec les clef de la requete et true si le paramêtre est spécifié ou false si il ne l'est pas
    * @param expectedData 
    */
-  public checkJSONBody(expectedData: [keyof JSONBody]): { success: boolean, payload: { [Key in keyof JSONBody]: boolean } } {
-    let response: { [Key in keyof JSONBody]: boolean };
+  public checkJSONBody(expectedData: (keyof JSONBody)[]): { success: boolean, payload: { [Key in keyof JSONBody]: boolean } } {
+    const response: { [Key in keyof JSONBody]: boolean } = {} as { [Key in keyof JSONBody]: boolean };
     let success: boolean = true;
     for (const expectedKey of expectedData) {
       if (this.jsonBody[expectedKey] == undefined) {
@@ -34,12 +35,12 @@ class HTTPRequest<JSONBody> {
     return { success: success, payload: response };
   }
 
-  public sendJsonPayload(payload: unknown, code: number = 200) {
+  public sendJsonPayload<JSONResponse>(payload: JSONResponse, code: number = 200) {
     this._response.json({code: code, payload: payload })
   }
 
   public sendJsonError(message: string, code: number, payload?: { [Key in keyof Partial<JSONBody>]: boolean }) {
-    this._response.json({ code: code, message: message, payload: payload });
+    this._response.status(code).json({ code: code, message: message, payload: payload });
   }
 }
 

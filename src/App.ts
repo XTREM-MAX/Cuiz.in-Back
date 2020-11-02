@@ -25,7 +25,6 @@ class App {
     
     await this._routeManager.init(this._database); 
     this.app.use("/", this._routeManager.router);
-    // this.app.get("/", (req, res) => res.send("Test"));
     this.app.listen(process.env.PORT ?? 3000, () => this._onListening());
   }
 

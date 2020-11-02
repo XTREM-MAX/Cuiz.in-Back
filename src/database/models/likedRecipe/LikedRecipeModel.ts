@@ -8,7 +8,7 @@ class LikedRecipeModel extends DataModel<LikedRecipeDataModel> implements LikedR
   user_id: number;
   @ColumnDecorator(DataTypes.DATE)
   created_date: Date;
-  @ColumnDecorator(DataTypes.STRING, false, false, true)
+  @ColumnDecorator(DataTypes.STRING)
   recipe_id: string;
   @ColumnDecorator(DataTypes.TEXT({length: "medium"}))
   recipe_name: string;
