@@ -107,3 +107,4 @@ package-lock.json
 wslport.ps1
 
 bin/
+.vscode/**
