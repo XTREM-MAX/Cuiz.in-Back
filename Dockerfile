@@ -11,4 +11,4 @@ RUN npm install typescript -g
 
 RUN tsc
 
-CMD nmp start
+CMD npm start
