@@ -24,15 +24,31 @@
  - Linux (Système d’exploitation du vps)
 
 ### Routes, Paramètres et réponses HTTP :
- #### /user/connexion
+ * Toutes les requêtes renvoient du JSON
+ * Toutes les requêtes renvoient un code 500 en cas d'erreur serveur
+ * Toutes les requêtes renvoient un code 400 si tous les paramètres obligatoires ne sont pas spécifiés
+ * Toutes les requêtes POST comportent des paramètres en JSON
+
+ #### /user/connexion POST
+  * Description : Connecte un nouvel utilisateur et renvoie un token de connexion
   * email: string;
   * password: string;
   * renvoie un code 200 avec un token
   * renvoie une erreur 451 dans le cas où le mdp/email ne correspond pas ou si il n'y a pas d'utilisateur avec ce mail
 
- #### /user/register
+ #### /user/register POST
+  * Description : Inscrit un nouvel utilisateur et renvoie un token de connexion
   * email: string;
   * password: string;
   * name: string;
   * renvoie un code 200 avec un token
   * renvoie une erreur 450 dans le cas où l'email existe déjà
+
+ #### /recipe/random GET
+  * Description : Renvoie une recette aléatoire
+  * [Object renvoyé](./src/routers/recipe/routeRandomRecipe/RouteRandomRecipeResponse.ts)
+ 
+ #### /recipe/search GET
+  * Description : Renvoie une liste de recettes répondant aux critères de recherche suivant :
+  * [Paramètres](./src/routers/recipe/routeSearchRecipe/RouteSearchRecipeRequest.ts)
+  * [Réponse](./src/routers/recipe/routeSearchRecipe/RouteSearchRecipeResponse.ts)
