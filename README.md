@@ -33,7 +33,7 @@
   * Description : Connecte un nouvel utilisateur et renvoie un token de connexion
   * email: string;
   * password: string;
-  * renvoie un code 200 avec un token
+  * renvoie un code 200 avec un token, l'email et le nom de l'utilisateur en JSON
   * renvoie une erreur 451 dans le cas où le mdp/email ne correspond pas ou si il n'y a pas d'utilisateur avec ce mail
 
  #### /user/register POST
@@ -41,7 +41,7 @@
   * email: string;
   * password: string;
   * name: string;
-  * renvoie un code 200 avec un token
+  * renvoie un code 200 avec un token, l'email et le nom de l'utilisateur en JSON
   * renvoie une erreur 450 dans le cas où l'email existe déjà
 
  #### /recipe/random GET

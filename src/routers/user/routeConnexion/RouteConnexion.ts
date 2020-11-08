@@ -1,4 +1,4 @@
-import RouteProxy from "../../RouteProxy";
+import Route from "../../Route";
 import HTTPRequest from "../../http/HTTPRequest";
 import RouteConnexionRequest from "./RouteConnexionRequest";
 
@@ -8,7 +8,7 @@ import * as bcrypt from "bcrypt";
 /**
  * Route: /user/connexion
  */
-class RouteConnexion extends RouteProxy {
+class RouteConnexion extends Route {
 
 	private readonly _expectedData: (keyof RouteConnexionRequest)[] = ["password", "email"];
 
@@ -28,13 +28,20 @@ class RouteConnexion extends RouteProxy {
 				return;
 			}
 
-			const token = jwt.sign(user.jwtSalt, process.env.APP_SECRET, {
+			const tokenPayload: jwt.SignOptions = {
 				issuer: process.env.BASE_URL,
-				subject: user.email,
-				expiresIn: 1000 * 3600 * 24 * 30 * 1000000 	//Infinite jwt
-			});
+				subject: user.jwtSalt,
+				expiresIn: 1000*3600*24*30*1000000 	//Infinite jwt
+			}
 
-			request.sendJsonPayload({ token: token });
+			const token = jwt.sign(tokenPayload, process.env.APP_SECRET);
+
+			request.sendJsonPayload({ 
+				token: token,
+				email: user.email,
+				name: user.name
+			});
+			
 		} catch (e) {
 			console.error(e);
 			request.sendJsonError("Internal Server Error", 500);

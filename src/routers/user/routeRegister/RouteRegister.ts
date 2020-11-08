@@ -1,4 +1,4 @@
-import RouteProxy from "../../RouteProxy";
+import Route from "../../Route";
 import HTTPRequest from "../../http/HTTPRequest";
 import RouteRegisterRequest from "./RouteRegisterRequest";
 import RouteRegisterResponse from "./RouteRegisterResponse";
@@ -9,12 +9,11 @@ import * as jwt from "jsonwebtoken";
 /**
  * Route: /user/register
  */
-class RouteRegister extends RouteProxy {
+class RouteRegister extends Route {
 
 	private readonly _expectedData: (keyof RouteRegisterRequest)[] = ["password", "name", "email"];
 
 	public async handle(request: HTTPRequest<RouteRegisterRequest>) {
-
 		const checkResponse = request.checkJSONBody(this._expectedData);
 
 		if (!checkResponse.success) {
@@ -36,11 +35,12 @@ class RouteRegister extends RouteProxy {
 				password: encryptedPassword,
 			});
 
-			const token = jwt.sign(user.jwtSalt, process.env.APP_SECRET, {
+			const tokenPayload: jwt.SignOptions = {
 				issuer: process.env.BASE_URL,
-				subject: user.email,
+				subject: user.jwtSalt,
 				expiresIn: 1000*3600*24*30*1000000 	//Infinite jwt
-			});
+			}
+			const token = jwt.sign(tokenPayload, process.env.APP_SECRET);
 
 			request.sendJsonPayload<RouteRegisterResponse>({
 				token: token,
