@@ -46,7 +46,7 @@
 
  #### /recipe/random GET
   * Description : Renvoie une recette aléatoire
-  * [Object renvoyé](./src/routers/recipe/routeRandomRecipe/RouteRandomRecipeResponse.ts)
+  * [Réponse](./src/routers/recipe/routeRandomRecipe/RouteRandomRecipeResponse.ts)
  
  #### /recipe/search GET
   * Description : Renvoie une liste de recettes répondant aux critères de recherche suivant :
