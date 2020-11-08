@@ -43,7 +43,7 @@ class RouteConnexion extends Route {
 			});
 			
 		} catch (e) {
-			console.error(e);
+			this.logger.error(e);
 			request.sendJsonError("Internal Server Error", 500);
 		}
 	}

@@ -48,7 +48,7 @@ class RouteRegister extends Route {
 				name: user.name
 			});
 		} catch (e) {
-			console.error(e);
+			this.logger.error(e);
 			request.sendJsonError("Server error", 500);
 		}
 	}
