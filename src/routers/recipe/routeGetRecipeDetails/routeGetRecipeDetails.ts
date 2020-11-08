@@ -1,8 +1,8 @@
-import RouteProxy from "../RouteProxy";
-import HTTPRequest from "../http/HTTPRequest";
+import RouteProxy from "../../RouteProxy";
+import HTTPRequest from "../../http/HTTPRequest";
 import RouteGetRecipeDetailsRequest from "./routeGetRecipeDetailsRequest";
 import { resolve as urlResolve } from "url";
-import ProxyRecipeDetails from "../../interfaces/ProxyRecipeDetails";
+import ProxyRecipeDetails from "../../../interfaces/ProxyRecipeDetails";
 class RouteAddLikedRecipe extends RouteProxy {
 
   private readonly _expectedData: (keyof RouteGetRecipeDetailsRequest)[] = ["recipe_url", "user_id"];

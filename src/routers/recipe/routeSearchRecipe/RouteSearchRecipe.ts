@@ -1,5 +1,5 @@
-import RouteProxy from "../RouteProxy";
-import HTTPRequest from "../http/HTTPRequest";
+import RouteProxy from "../../RouteProxy";
+import HTTPRequest from "../../http/HTTPRequest";
 import RouteSearchRecipeRequest from "./RouteSearchRecipeRequest";
 import RouteSearchRecipeProxyRequest from "./RouteSearchRecipeProxyRequest";
 import RouteSearchRecipeProxyResponse from "./RouteSearchRecipeProxyResponse";

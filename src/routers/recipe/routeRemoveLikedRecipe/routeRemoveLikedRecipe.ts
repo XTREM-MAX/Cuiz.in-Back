@@ -1,5 +1,5 @@
-import RouteProxy from "../RouteProxy";
-import HTTPRequest from "../http/HTTPRequest";
+import RouteProxy from "../../RouteProxy";
+import HTTPRequest from "../../http/HTTPRequest";
 import RouteRemoveLikedRecipeRequest from "./routeRemoveLikedRecipeRequest";
 class RouteAddLikedRecipe extends RouteProxy {
 

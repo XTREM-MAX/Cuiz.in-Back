@@ -1,16 +1,16 @@
 import Route from "./Route";
-import RouteGetLikedRecipe from "./routeGetLikedRecipe/RouteGetLikedRecipe";
 import RouteIndex from "./RouteIndex";
-import RouteRandomRecipe from "./routeRandomRecipe/RouteRandomRecipe";
 import { Router } from "express";
 import Database from "src/database/Database";
 import HTTPRequest from "./http/HTTPRequest";
 
-import RouteSearchRecipe from "./routeSearchRecipe/RouteSearchRecipe";
-import RouteAddLikedRecipe from "./routeAddLikedRecipe/RouteAddLikedRecipe";
-import RouteRemoveLikedRecipe from "./routeRemoveLikedRecipe/routeRemoveLikedRecipe";
-import RouteGetAllLikedRecipes from "./routeGetAllLikedRecipes/RouteGetAllLikedRecipes";
-import RouteGetLikedRecipeDetails from "./routeGetRecipeDetails/routeGetRecipeDetails";
+import RouteSearchRecipe from "./recipe/routeSearchRecipe/RouteSearchRecipe";
+import RouteAddLikedRecipe from "./recipe/routeAddLikedRecipe/RouteAddLikedRecipe";
+import RouteRemoveLikedRecipe from "./recipe/routeRemoveLikedRecipe/routeRemoveLikedRecipe";
+import RouteGetAllLikedRecipes from "./recipe/routeGetAllLikedRecipes/RouteGetAllLikedRecipes";
+import RouteGetLikedRecipeDetails from "./recipe/routeGetRecipeDetails/routeGetRecipeDetails";
+import RouteGetLikedRecipe from "./recipe/routeGetLikedRecipe/RouteGetLikedRecipe";
+import RouteRandomRecipe from "./recipe/routeRandomRecipe/RouteRandomRecipe";
 
 class RouteManager {
   public router: Router = Router();

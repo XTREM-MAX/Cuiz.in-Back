@@ -1,5 +1,5 @@
-import Route from "../Route";
-import HTTPRequest from "../http/HTTPRequest";
+import Route from "../../Route";
+import HTTPRequest from "../../http/HTTPRequest";
 import RouteGetAllLikedRecipesRequest from "./RouteGetAllLikedRecipesRequest";
 
 class RouteGetLikedRecipe extends Route {

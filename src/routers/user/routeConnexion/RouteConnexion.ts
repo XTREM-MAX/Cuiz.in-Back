@@ -1,5 +1,5 @@
-import RouteProxy from "../RouteProxy";
-import HTTPRequest from "../http/HTTPRequest";
+import RouteProxy from "../../RouteProxy";
+import HTTPRequest from "../../http/HTTPRequest";
 import RouteConnexionRequest from "./RouteConnexionRequest";
 
 class RouteAddLikedRecipe extends RouteProxy {
@@ -14,6 +14,7 @@ class RouteAddLikedRecipe extends RouteProxy {
       request.sendJsonError("Bad Request", 400, checkResponse.payload);
       return;
     }
+	
 	
 
 	request.sendJsonPayload({
