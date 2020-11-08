@@ -13,6 +13,7 @@ import RouteGetLikedRecipe from "./recipe/routeGetLikedRecipe/RouteGetLikedRecip
 import RouteRandomRecipe from "./recipe/routeRandomRecipe/RouteRandomRecipe";
 
 import RouteRegister from "./user/routeRegister/RouteRegister";
+import RouteConnexion from "./user/routeConnexion/RouteConnexion";
 
 class RouteManager {
 	public router: Router = Router();
@@ -57,6 +58,7 @@ class RouteManager {
 		};
 		this._postRoutes = {
 			"/user/register": new RouteRegister(this._db),
+			"/user/connexion": new RouteConnexion(this._db),
 			"/recipe/search": new RouteSearchRecipe(this._db),
 			"/recipe/add": new RouteAddLikedRecipe(this._db),
 		};

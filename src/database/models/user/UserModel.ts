@@ -12,6 +12,8 @@ class UserModel extends DataModel<UserDataModel> implements UserDataModel {
   public password: string;
   @ColumnDecorator(DataTypes.STRING(40))
   public name: string;
+  @ColumnDecorator(DataTypes.STRING(36))
+  public jwtSalt: string;
 }
 
 export default UserModel;

@@ -1,4 +1,4 @@
-import { Model, ModelCtor, ModelOptions, Sequelize } from "sequelize";
+import { Model, ModelCtor, ModelOptions, Sequelize, UUID } from "sequelize";
 import { SequelizeAttributes } from "src/types";
 import DataModel from './decorator/DataModel';
 import DeviceDataModel from "./models/device/DeviceDataModel";
@@ -9,7 +9,7 @@ import OauthModel from "./models/oauth/OauthModel";
 import UserDataModel from "./models/user/UserDataModel";
 import UserModel from "./models/user/UserModel";
 import DeviceModel from "./models/device/DeviceModel";
-
+import * as uuid from "uuid";
 class Database {
 	private readonly _options: ModelOptions<DataModel<Model>>;
 
@@ -59,7 +59,11 @@ class Database {
 	}
 
 	public registerUser(user: UserDataModel): Promise<UserDataModel> {
-		return this.User.create(user);
+		return this.User.create({ ...user, jwtSalt: uuid.v4() });
+	}
+
+	public getUserByEmail(email: string): Promise<UserDataModel> {
+		return this.User.findOne({ where: { email: email } });
 	}
 }
 

@@ -3,4 +3,5 @@ export default interface UserDataModel {
   email: string;
   password: string;
   name: string;
+  jwtSalt?: string;
 }

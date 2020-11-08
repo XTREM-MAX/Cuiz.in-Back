@@ -1,8 +1,14 @@
 import RouteProxy from "../../RouteProxy";
 import HTTPRequest from "../../http/HTTPRequest";
 import RouteRegisterRequest from "./RouteRegisterRequest";
-import * as bcrypt from "bcrypt";
+import RouteRegisterResponse from "./RouteRegisterResponse";
 
+import * as bcrypt from "bcrypt";
+import * as jwt from "jsonwebtoken";
+
+/**
+ * Route: /user/register
+ */
 class RouteRegister extends RouteProxy {
 
 	private readonly _expectedData: (keyof RouteRegisterRequest)[] = ["password", "name", "email"];
@@ -19,22 +25,33 @@ class RouteRegister extends RouteProxy {
 		try {
 			const encryptedPassword = await bcrypt.hash(request.jsonBody.password, 5);
 
-			await this._db.registerUser({
+			if (await this._db.getUserByEmail(request.jsonBody.email) !== null) {
+				request.sendJsonError("Email Already Exist", 450);
+				return;
+			}
+			
+			const user = await this._db.registerUser({
 				email: request.jsonBody.email,
 				name: request.jsonBody.name,
-				password: encryptedPassword
+				password: encryptedPassword,
 			});
-		} catch(e) {
-			//TODO: Handle error
-			console.error(e);
-			return;
-		}
-		
-		request.sendJsonPayload({
-			success: true
-		});
-	}
 
+			const token = jwt.sign(user.jwtSalt, process.env.APP_SECRET, {
+				issuer: process.env.BASE_URL,
+				subject: user.email,
+				expiresIn: 1000*3600*24*30*1000000 	//Infinite jwt
+			});
+
+			request.sendJsonPayload<RouteRegisterResponse>({
+				token: token,
+				email: user.email,
+				name: user.name
+			});
+		} catch (e) {
+			console.error(e);
+			request.sendJsonError("Server error", 500);
+		}
+	}
 }
 
 export default RouteRegister;
