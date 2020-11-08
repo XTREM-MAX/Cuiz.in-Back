@@ -1,4 +1,4 @@
 export default interface RouteConnexionRequest {
-	username: string;
+	email: string;
 	password: string;
 }

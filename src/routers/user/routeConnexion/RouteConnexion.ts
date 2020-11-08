@@ -2,9 +2,9 @@ import RouteProxy from "../../RouteProxy";
 import HTTPRequest from "../../http/HTTPRequest";
 import RouteConnexionRequest from "./RouteConnexionRequest";
 
-class RouteAddLikedRecipe extends RouteProxy {
+class RouteConnexion extends RouteProxy {
 
-  private readonly _expectedData: (keyof RouteConnexionRequest)[] = ["password", "username"];
+  private readonly _expectedData: (keyof RouteConnexionRequest)[] = ["password", "email"];
 
   public async handle(request: HTTPRequest<RouteConnexionRequest>) {
 
@@ -24,4 +24,4 @@ class RouteAddLikedRecipe extends RouteProxy {
 
 }
 
-export default RouteAddLikedRecipe;
+export default RouteConnexion;
