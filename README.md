@@ -22,4 +22,17 @@
  - Nginx (Reverse-proxy)
  - Docker (Conteneurisation des programmes)
  - Linux (Système d’exploitation du vps)
- 
+
+### Routes, Paramètres et réponses HTTP :
+ #### /user/connexion
+  * email: string;
+  * password: string;
+  * renvoie un code 200 avec un token
+  * renvoie une erreur 451 dans le cas où le mdp/email ne correspond pas ou si il n'y a pas d'utilisateur avec ce mail
+
+ #### /user/register
+  * email: string;
+  * password: string;
+  * name: string;
+  * renvoie un code 200 avec un token
+  * renvoie une erreur 450 dans le cas où l'email existe déjà
