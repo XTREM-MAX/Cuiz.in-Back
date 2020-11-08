@@ -10,6 +10,8 @@ import UserDataModel from "./models/user/UserDataModel";
 import UserModel from "./models/user/UserModel";
 import DeviceModel from "./models/device/DeviceModel";
 import * as uuid from "uuid";
+import Logger from "../utils/Logger";
+
 class Database {
 	private readonly _options: ModelOptions<DataModel<Model>>;
 
@@ -28,11 +30,13 @@ class Database {
 	private readonly Oauth = this._generateModel<OauthModel, OauthDataModel>(OauthModel as typeof DataModel);
 	private readonly Device = this._generateModel<DeviceModel, DeviceDataModel>(DeviceModel as typeof DataModel);
 
+	private readonly _logger = new Logger("Database");
+
 	public async init(removeOld = false) {
 		try {
 			await this._sequelize.sync({ force: removeOld });
 		} catch (e) {
-			console.log("Error syncinc model to DB", e);
+			this._logger.error("Error syncinc model to DB", e);
 		}
 		return this;
 	}

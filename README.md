@@ -28,6 +28,7 @@
  * Toutes les requêtes renvoient un code 500 en cas d'erreur serveur
  * Toutes les requêtes renvoient un code 400 si tous les paramètres obligatoires ne sont pas spécifiés
  * Toutes les requêtes POST comportent des paramètres en JSON
+ * Toutes les requêtes en lien avec l'utilisateur n'ayant pas leur token spécifié retourneront une erreur 403 Forbidden
 
  #### /user/connexion POST
   * Description : Connecte un nouvel utilisateur et renvoie un token de connexion

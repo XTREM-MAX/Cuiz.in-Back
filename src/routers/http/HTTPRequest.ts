@@ -13,7 +13,7 @@ class HTTPRequest<JSONBody> {
 	}
 
 	public handleRequest() {
-		console.log("Params", this.jsonBody);
+		this._route.logger.log("Params", this.jsonBody);
 		this._route.handle(this);
 	}
 

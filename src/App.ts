@@ -5,11 +5,13 @@ import * as logger from 'morgan';
 import * as dotenv from "dotenv";
 import RouteManager from "./routers/RouteManager";
 import Database from "./database/Database";
+import Logger from "./utils/Logger";
 
 class App {
 	public app: express.Application = express();
 	private _routeManager: RouteManager = new RouteManager();
 	private _database: Database;
+	private _logger: Logger = new Logger("App");
 
 	public async init() {
 		dotenv.config();
@@ -32,8 +34,8 @@ class App {
 		return new Database().init();
 	}
 	private _onListening() {
-		console.log("Server started");
-		console.log("Listening on port", process.env.PORT ?? 3000);
+		this._logger.log("Server started");
+		this._logger.log("Listening on port", process.env.PORT ?? 3000);
 	}
 }
 
