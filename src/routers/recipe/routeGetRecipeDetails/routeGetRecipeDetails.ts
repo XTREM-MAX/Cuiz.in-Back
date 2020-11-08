@@ -3,9 +3,10 @@ import HTTPRequest from "../../http/HTTPRequest";
 import RouteGetRecipeDetailsRequest from "./routeGetRecipeDetailsRequest";
 import { resolve as urlResolve } from "url";
 import ProxyRecipeDetails from "../../../interfaces/ProxyRecipeDetails";
+
 class RouteAddLikedRecipe extends RouteProxy {
 
-  private readonly _expectedData: (keyof RouteGetRecipeDetailsRequest)[] = ["recipe_url", "user_id"];
+  private readonly _expectedData: (keyof RouteGetRecipeDetailsRequest)[] = ["recipe_id"];
 
   public async handle(request: HTTPRequest<RouteGetRecipeDetailsRequest>) {
 
@@ -16,7 +17,7 @@ class RouteAddLikedRecipe extends RouteProxy {
       return;
     }
 
-    const recipe: ProxyRecipeDetails = await this.proxyGETRequest<ProxyRecipeDetails>(urlResolve("recipes", request.jsonBody.recipe_url));
+    const recipe: ProxyRecipeDetails = await this.proxyGETRequest<ProxyRecipeDetails>(urlResolve("recipes/", request.jsonBody.recipe_id));
     
     request.sendJsonPayload<ProxyRecipeDetails>(recipe);
   }

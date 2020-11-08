@@ -1,23 +1,30 @@
 import Route from "../../Route";
-import HTTPRequest from "../../http/HTTPRequest";
+import HTTPUserRequest from "../../http/HTTPUserRequest";
 import RouteGetLikedRecipeRequest from "./RouteGetLikedRecipeRequest";
 
 class RouteGetLikedRecipe extends Route {
-  private readonly _expectedData: (keyof RouteGetLikedRecipeRequest)[] = ["user_id", "recipe_id"];
+	private readonly _expectedData: (keyof RouteGetLikedRecipeRequest)[] = ["recipe_id"];
 
-  public async handle(request: HTTPRequest<RouteGetLikedRecipeRequest>) {
-    const payload = await this._db.getLikedRecipe(request.jsonBody.recipe_id, request.jsonBody.user_id)
+	public async handle(request: HTTPUserRequest<RouteGetLikedRecipeRequest>) {
+		try {
+			const checkResponse = request.checkJSONBody(this._expectedData);
+			if (!checkResponse.success) {
+				request.sendJsonError("Bad Request", 400, checkResponse.payload);
+				return;
+			}
 
-    const checkResponse = request.checkJSONBody(this._expectedData);
+			const payload = await this._db.getLikedRecipe(request.jsonBody.recipe_id, request.user.id)
 
-    if (!checkResponse.success) {
-      request.sendJsonError("Bad Request", 400, checkResponse.payload);
-      return;
-    }
-    
-    request.sendJsonPayload(payload);
-  }
-
+			delete payload.user_id;
+			if (!payload)
+				request.sendJsonPayload({ empty: true }, 430);
+			else
+				request.sendJsonPayload(payload);
+		} catch (e) {
+			this.logger.error(e);
+			request.sendJsonError("Internal Server Error", 500);
+		}
+	}
 }
 
 export default RouteGetLikedRecipe;

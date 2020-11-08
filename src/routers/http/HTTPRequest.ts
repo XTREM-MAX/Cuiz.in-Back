@@ -7,9 +7,9 @@ class HTTPRequest<JSONBody> {
 	constructor(
 		public request: Request,
 		private _response: Response,
-		private _route: Route
+		protected _route: Route
 	) {
-		this.jsonBody = { ...this.request.body, ...this.request.query };
+		this.jsonBody = { ...this.request.body, ...this.request.query, ...this.request.params };
 	}
 
 	public handleRequest() {

@@ -1,7 +1,8 @@
 import Route from "./Route";
 import RouteIndex from "./RouteIndex";
-import { Router } from "express";
+import { Request, Response, Router, RequestHandler } from "express";
 import HTTPRequest from "./http/HTTPRequest";
+import HTTPUserRequest from "./http/HTTPUserRequest";
 
 import Logger from "../utils/Logger";
 import Database from "../database/Database";
@@ -16,13 +17,15 @@ import RouteRandomRecipe from "./recipe/routeRandomRecipe/RouteRandomRecipe";
 
 import RouteRegister from "./user/routeRegister/RouteRegister";
 import RouteConnexion from "./user/routeConnexion/RouteConnexion";
+import RouteUpdate from "./user/routeUpdate/RouteUpdate";
+import RouteGet from "./user/routeGet/RouteGet";
+import RouteRemove from "./user/routeRemove/RouteRemove";
 
 class RouteManager {
 	public router: Router = Router();
 	private _db: Database;
 
-	private _getRoutes: { [key: string]: Route };
-	private _postRoutes: { [key: string]: Route };
+	private _routes: { [key: string]: { route: Route, type: "POST"|"GET", protected?: boolean } };
 
 	private readonly _logger: Logger = new Logger("RouteManager");
 	/**
@@ -34,37 +37,90 @@ class RouteManager {
 
 		this._setRoutes();
 
-		for (const routeKey in this._getRoutes) {
-			this._logger.log("GET", routeKey);
-			this.router.get(routeKey, (req, res) => {
-				const request = new HTTPRequest(req, res, this._getRoutes[routeKey]);
-				request.handleRequest();
-			});
-		}
+		for (const routeKey in this._routes) {
+			const routeParams: { route: Route, type: "POST"|"GET", protected?: boolean } = this._routes[routeKey];
+			this._logger.log(routeParams.type, routeKey);
 
-		for (const routeKey in this._postRoutes) {
-			this._logger.log("POST", routeKey);
-			this.router.post(routeKey, (req, res) => {
-				const request = new HTTPRequest(req, res, this._postRoutes[routeKey]);
-				request.handleRequest();
-			});
+			const handlerCtor: RequestHandler = async (req: Request, res: Response) => {
+				if (routeParams.protected === true) {
+					const request: HTTPUserRequest<unknown> = new HTTPUserRequest(req, res, routeParams.route, this._db);
+					await request.init();
+					if (request.userTokenValid)
+						request.handleRequest();
+				}
+				else
+					new HTTPRequest(req, res, routeParams.route).handleRequest();
+			}
+
+			if (routeParams.type == "POST")
+				this.router.post(routeKey, handlerCtor);
+			else if (routeParams.type == "GET")
+				this.router.get(routeKey, handlerCtor);
 		}
 	}
 
 	private _setRoutes() {
-		this._getRoutes = {
-			"/": new RouteIndex(this._db, "RouteIndex"),
-			"/recipe/random": new RouteRandomRecipe(this._db, "RouteRandomRecipe"),
-			"/recipe/all": new RouteGetAllLikedRecipes(this._db, "RouteGetAllLikedRecipes", true),
-			"/recipe/:id": new RouteGetLikedRecipe(this._db, "RouteGetLikedRecipe", true),
-			"/recipe/:id/details": new RouteGetLikedRecipeDetails(this._db, "RouteGetLikedRecipeDetails", true),
-			"/recipe/:id/remove": new RouteRemoveLikedRecipe(this._db, "RouteRemoveLikedRecipe", true),
-		};
-		this._postRoutes = {
-			"/user/register": new RouteRegister(this._db, "RouteRegister"),
-			"/user/connexion": new RouteConnexion(this._db, "RouteConnexion"),
-			"/recipe/search": new RouteSearchRecipe(this._db, "RouteSearchRecipe"),
-			"/recipe/add": new RouteAddLikedRecipe(this._db, "RouteAddLikedRecipe", true),
+		this._routes = {
+			"/": { 
+				type: "GET",
+				route: new RouteIndex(this._db, "RouteIndex"),
+			},
+			"/recipe/random": { 
+				type: "GET",
+				route: new RouteRandomRecipe(this._db, "RouteRandomRecipe") 
+			},
+			"/recipe/add": {
+				type: "GET",
+				route: new RouteAddLikedRecipe(this._db, "RouteAddLikedRecipe"),
+				protected: true 
+			},
+			"/recipe/all": { 
+				type: "GET",
+				route: new RouteGetAllLikedRecipes(this._db, "RouteGetAllLikedRecipes"), 
+				protected: true 
+			},
+			"/recipe/:recipe_id/": { 
+				type: "GET",
+				route: new RouteGetLikedRecipe(this._db, "RouteGetLikedRecipe"), 
+				protected: true 
+			},
+			"/recipe/:recipe_id/details": { 
+				type: "GET",
+				route: new RouteGetLikedRecipeDetails(this._db, "RouteGetLikedRecipeDetails"), 
+				protected: true 
+			},
+			"/recipe/:recipe_id/remove": { 
+				type: "GET",
+				route: new RouteRemoveLikedRecipe(this._db, "RouteRemoveLikedRecipe"), 
+				protected: true 
+			},
+			"/user/get": {
+				type: "GET",
+				route: new RouteGet(this._db, "RouteGet"),
+				protected: true
+			},
+			"/user/remove": {
+				type: "GET",
+				route: new RouteRemove(this._db, "RouteRemove"),
+				protected: true
+			},
+			"/user/register": {
+				type: "POST",
+				route: new RouteRegister(this._db, "RouteRegister")
+			},
+			"/user/connexion": {
+				type: "POST",
+				route: new RouteConnexion(this._db, "RouteConnexion")
+			},
+			"/user/update": {
+				type: "POST",
+				route: new RouteUpdate(this._db, "RouteUpdate"),
+				protected: true
+			},
+			"/recipe/search": {
+				type: "POST",
+				route: new RouteSearchRecipe(this._db, "RouteSearchRecipe")
+			},
 		};
 	}
 }

@@ -9,7 +9,7 @@ import OauthModel from "./models/oauth/OauthModel";
 import UserDataModel from "./models/user/UserDataModel";
 import UserModel from "./models/user/UserModel";
 import DeviceModel from "./models/device/DeviceModel";
-import * as uuid from "uuid";
+import * as uuid from "short-uuid";
 import Logger from "../utils/Logger";
 
 class Database {
@@ -46,28 +46,42 @@ class Database {
 		return this._sequelize.define<T, V>(className.substr(0, className.length - 5), model.prototype.model as SequelizeAttributes<V>, this._options);
 	}
 
-	public getAllLikedRecipes(userId: string): Promise<LikedRecipeModel[]> {
+	public getAllLikedRecipes(userId: number): Promise<LikedRecipeDataModel[]> {
 		return this.LikedRecipe.findAll({ where: { user_id: userId } });
 	}
 
-	public getLikedRecipe(recipeId: string, userId: string): Promise<LikedRecipeDataModel> {
-		return this.LikedRecipe.findOne({ where: { recipe_id: recipeId, user_id: userId } });
+	public async getLikedRecipe(recipeId: string, userId: number): Promise<LikedRecipeDataModel> {
+		return (await this.LikedRecipe.findOne({ where: { recipe_id: recipeId, user_id: userId } }))?.get();
 	}
 
-	public addLikedRecipe(recipe: LikedRecipeDataModel): Promise<LikedRecipeDataModel> {
-		return this.LikedRecipe.create(recipe);
+	public async addLikedRecipe(recipe: LikedRecipeDataModel): Promise<LikedRecipeDataModel> {
+		return (await this.LikedRecipe.create(recipe))?.get();
 	}
 
-	public removeLikedRecipe(id: string, userId: string) {
+	public removeLikedRecipe(id: string, userId: number) {
 		return this.LikedRecipe.destroy({ where: { recipe_id: id, user_id: userId } });
 	}
 
 	public registerUser(user: UserDataModel): Promise<UserDataModel> {
-		return this.User.create({ ...user, jwtSalt: uuid.v4() });
+		return this.User.create({ ...user, jwtSalt: uuid.generate() });
+	}
+
+	public async updateUser(user: Partial<UserDataModel>, id: number): Promise<UserDataModel> {
+		await this.User.update(user, { where: { id: id } });
+		return await this.User.findOne({ where: { id: id} });
+	}
+
+	public async removeUser(id: number): Promise<void> {
+		await this.User.destroy({ where: { id: id } });
+		await this.LikedRecipe.destroy({ where: { user_id: id } });
 	}
 
 	public getUserByEmail(email: string): Promise<UserDataModel> {
 		return this.User.findOne({ where: { email: email } });
+	}
+
+	public getUserByJwt(jwt: string): Promise<UserDataModel> {
+		return this.User.findOne({ where: { jwtSalt: jwt } });
 	}
 }
 

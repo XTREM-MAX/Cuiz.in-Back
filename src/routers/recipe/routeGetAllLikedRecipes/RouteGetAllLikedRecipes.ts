@@ -1,22 +1,20 @@
 import Route from "../../Route";
-import HTTPRequest from "../../http/HTTPRequest";
-import RouteGetAllLikedRecipesRequest from "./RouteGetAllLikedRecipesRequest";
+import HTTPUserRequest from "../../http/HTTPUserRequest";
 
 class RouteGetLikedRecipe extends Route {
-  private readonly _expectedData: [keyof RouteGetAllLikedRecipesRequest] = ["user_id"];
 
-  public async handle(request: HTTPRequest<RouteGetAllLikedRecipesRequest>) {
-    const payload = await this._db.getAllLikedRecipes(request.jsonBody.user_id);
-
-    const checkResponse = request.checkJSONBody(this._expectedData);
-
-    if (!checkResponse.success) {
-      request.sendJsonError("Bad Request", 400, checkResponse.payload);
-      return;
-    }
-    
-    request.sendJsonPayload(payload);
-  }
+	public async handle(request: HTTPUserRequest<unknown>) {
+		try {
+			const payload = await this._db.getAllLikedRecipes(request.user.id);
+			request.sendJsonPayload({
+				size: payload.length,
+				data: payload
+			});
+		} catch (e) {
+			this.logger.error(e);
+			request.sendJsonError("Internal Server Error", 500);
+		}
+	}
 
 }
 

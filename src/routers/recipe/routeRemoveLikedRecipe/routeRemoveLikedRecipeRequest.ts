@@ -1,4 +1,3 @@
 export default interface RouteRemoveLikedRecipeRequest {
-  id: string;
-  userId: string;
+  recipe_id: string;
 }

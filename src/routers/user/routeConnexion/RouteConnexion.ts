@@ -31,7 +31,6 @@ class RouteConnexion extends Route {
 			const tokenPayload: jwt.SignOptions = {
 				issuer: process.env.BASE_URL,
 				subject: user.jwtSalt,
-				expiresIn: 1000*3600*24*30*1000000 	//Infinite jwt
 			}
 
 			const token = jwt.sign(tokenPayload, process.env.APP_SECRET);
