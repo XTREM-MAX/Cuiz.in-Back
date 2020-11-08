@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/App.js",
-    "build": "tsc"
+	"build": "tsc",
+	"dev": "tsc-watch --onSuccess 'npm start' --onFailure 'echo Compilation error'"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -30,6 +31,7 @@
     "@types/http-errors": "^1.8.0",
     "@types/morgan": "^1.9.1",
     "@types/node-fetch": "^2.5.7",
-    "@types/validator": "^13.1.0"
+    "@types/validator": "^13.1.0",
+    "tsc-watch": "^4.2.9"
   }
 }
