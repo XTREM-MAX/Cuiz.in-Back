@@ -5,11 +5,11 @@ import { resolve as urlResolve } from "url";
 import ProxyRecipeDetails from "../../interfaces/ProxyRecipeDetails";
 class RouteAddLikedRecipe extends RouteProxy {
 
-  private readonly expectedData: (keyof RouteGetRecipeDetailsRequest)[] = ["recipe_url", "user_id"];
+  private readonly _expectedData: (keyof RouteGetRecipeDetailsRequest)[] = ["recipe_url", "user_id"];
 
   public async handle(request: HTTPRequest<RouteGetRecipeDetailsRequest>) {
 
-    const checkResponse = request.checkJSONBody(this.expectedData);
+    const checkResponse = request.checkJSONBody(this._expectedData);
 
     if (!checkResponse.success) {
       request.sendJsonError("Bad Request", 400, checkResponse.payload);

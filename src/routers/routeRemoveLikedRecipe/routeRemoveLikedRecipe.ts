@@ -3,11 +3,11 @@ import HTTPRequest from "../http/HTTPRequest";
 import RouteRemoveLikedRecipeRequest from "./routeRemoveLikedRecipeRequest";
 class RouteAddLikedRecipe extends RouteProxy {
 
-  private readonly expectedData: (keyof RouteRemoveLikedRecipeRequest)[] = ["id", "userId"];
+  private readonly _expectedData: (keyof RouteRemoveLikedRecipeRequest)[] = ["id", "userId"];
 
   public async handle(request: HTTPRequest<RouteRemoveLikedRecipeRequest>) {
 
-    const checkResponse = request.checkJSONBody(this.expectedData);
+    const checkResponse = request.checkJSONBody(this._expectedData);
 
     if (!checkResponse.success) {
       request.sendJsonError("Bad Request", 400, checkResponse.payload);

@@ -3,12 +3,12 @@ import HTTPRequest from "../http/HTTPRequest";
 import RouteGetAllLikedRecipesRequest from "./RouteGetAllLikedRecipesRequest";
 
 class RouteGetLikedRecipe extends Route {
-  private readonly expectedData: [keyof RouteGetAllLikedRecipesRequest] = ["user_id"];
+  private readonly _expectedData: [keyof RouteGetAllLikedRecipesRequest] = ["user_id"];
 
   public async handle(request: HTTPRequest<RouteGetAllLikedRecipesRequest>) {
     const payload = await this._db.getAllLikedRecipes(request.jsonBody.user_id);
 
-    const checkResponse = request.checkJSONBody(this.expectedData);
+    const checkResponse = request.checkJSONBody(this._expectedData);
 
     if (!checkResponse.success) {
       request.sendJsonError("Bad Request", 400, checkResponse.payload);
