@@ -2,11 +2,11 @@
 class DataModel<T> extends Model {
     +model: SequelizeAttributes<T>
 }
-interface default {
+interface DeviceDataModel {
     +user_id: number
     +device_id: string
 }
-interface default {
+interface LikedRecipeDataModel {
     +user_id: number
     +created_date: Date
     +recipe_id: string
@@ -28,7 +28,7 @@ enum OauthType {
     GOOGLE
     FACEBOOK
 }
-interface default {
+interface OauthDataModel {
     +user_id: number
     +type: OauthType
 }
@@ -36,7 +36,7 @@ class OauthModel extends DataModel implements OauthDataModel {
     +user_id: number
     +type: OauthType
 }
-interface default {
+interface UserDataModel {
     +id?: number
     +email: string
     +password: string
@@ -113,7 +113,7 @@ abstract class RouteProxy extends Route {
     #proxyGETRequest(path: string): Promise<ResponseData>
     -getAPIKey(method: "post" | "get", url: string): string
 }
-interface default {
+interface RouteSearchRecipeRequest {
     +text: string
     +time?: string
     +diet?: string
@@ -121,10 +121,10 @@ interface default {
     +category: number[]
     +page: number
 }
-interface default {
+interface RouteSearchRecipeProxyRequest {
     +where: Partial<RouteSearchRecipeRequest>
 }
-interface default {
+interface RouteSearchRecipeProxyResponse {
     +result: { _id: string; name: string; nameSlugify: string; quantity: {    portion: string;    total: number;}; picture: boolean; category: number; active: number; numberOfIngredients: number; time: {    total: number;    preparation: number;    baking: number;}; nutriscore: number; difficulty: number; numberOfComments: numbe...
     +limit: number
     +count: number
@@ -134,10 +134,10 @@ class RouteSearchRecipe extends RouteProxy {
     -_expectedData: ("text" | "time" | "diet" | "nutriscore" | "category" | "page")[]
     +handle(request: HTTPRequest<RouteSearchRecipeRequest>): Promise<void>
 }
-interface default {
+interface RouteAddLikedRecipeRequest {
     +recipe_id: string
 }
-interface default {
+interface ProxyRecipeDetails {
     +result: Result
     +status: number
 }
@@ -224,7 +224,7 @@ class RouteAddLikedRecipe extends RouteProxy {
     -_expectedData: "recipe_id"[]
     +handle(request: HTTPUserRequest<RouteAddLikedRecipeRequest>): Promise<void>
 }
-interface default {
+interface RouteRemoveLikedRecipeRequest {
     +recipe_id: string
 }
 class RouteRemoveLikedRecipe extends RouteProxy {
@@ -234,21 +234,21 @@ class RouteRemoveLikedRecipe extends RouteProxy {
 class RouteGetLikedRecipe extends Route {
     +handle(request: HTTPUserRequest<unknown>): Promise<void>
 }
-interface default {
+interface RouteGetRecipeDetailsRequest {
     +recipe_id: string
 }
 class RouteAddLikedRecipe extends RouteProxy {
     -_expectedData: "recipe_id"[]
     +handle(request: HTTPRequest<RouteGetRecipeDetailsRequest>): Promise<void>
 }
-interface default {
+interface RouteGetLikedRecipeRequest {
     +recipe_id: string
 }
 class RouteGetLikedRecipe extends Route {
     -_expectedData: "recipe_id"[]
     +handle(request: HTTPUserRequest<RouteGetLikedRecipeRequest>): Promise<void>
 }
-interface default {
+interface RouteSearchRecipeResponse {
     +name: string
     +imageUrl?: string
     +quantity: { portion: string; total: number; }
@@ -258,7 +258,7 @@ interface default {
     +nutriscore: number
     +difficulty: number
 }
-interface default {
+interface RouteRandomRecipeResponse {
     +recipe: RouteSearchRecipeResponse
     +page: number
     +index: number
@@ -266,12 +266,12 @@ interface default {
 class RouteRandomRecipe extends RouteProxy {
     +handle(request: HTTPRequest<null>): Promise<void>
 }
-interface default {
+interface RouteRegisterRequest {
     +password: string
     +name: string
     +email: string
 }
-interface default {
+interface RouteRegisterResponse {
     +token: string
     +email: string
     +name: string
@@ -280,7 +280,7 @@ class RouteRegister extends Route {
     -_expectedData: ("password" | "name" | "email")[]
     +handle(request: HTTPRequest<RouteRegisterRequest>): Promise<void>
 }
-interface default {
+interface RouteConnexionRequest {
     +email: string
     +password: string
 }
@@ -289,7 +289,7 @@ class RouteConnexion extends Route {
     +handle(request: HTTPRequest<RouteConnexionRequest>): Promise<void>
     -invalidCredsError(request: HTTPRequest<RouteConnexionRequest>): void
 }
-interface default {
+interface RouteUpdateRequest {
     +email: string
     +password: string
     +name: string
@@ -299,7 +299,7 @@ class RouteUpdate extends RouteProxy {
     -_expectedData: ("password" | "name" | "email" | "password_verify")[]
     +handle(request: HTTPUserRequest<RouteUpdateRequest>): Promise<void>
 }
-interface default {
+interface RouteGetResponse {
     +name: string
     +email: string
     +creationTimestamp: number
@@ -307,7 +307,7 @@ interface default {
 class RouteGet extends RouteProxy {
     +handle(request: HTTPUserRequest<unknown>): Promise<void>
 }
-interface default {
+interface RouteRemoveRequest {
     +password_verify: string
 }
 class RouteRemove extends RouteProxy {
