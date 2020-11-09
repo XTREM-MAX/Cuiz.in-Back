@@ -1,4 +1,4 @@
-export default interface RouteSearchRecipeProxyResponse {
+interface RouteSearchRecipeProxyResponse {
   result: {
     _id: string,
     name: string,
@@ -24,3 +24,5 @@ export default interface RouteSearchRecipeProxyResponse {
   count: number;
   status: number;
 }
+
+export default RouteSearchRecipeProxyResponse;

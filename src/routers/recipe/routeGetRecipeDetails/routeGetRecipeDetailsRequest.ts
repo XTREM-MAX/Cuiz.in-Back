@@ -1,3 +1,5 @@
-export default interface RouteGetRecipeDetailsRequest {
+interface RouteGetRecipeDetailsRequest {
   recipe_id: string;
 }
+
+export default RouteGetRecipeDetailsRequest

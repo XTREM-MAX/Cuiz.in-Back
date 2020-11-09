@@ -1,4 +1,4 @@
-export default interface LikedRecipeDataModel {
+interface LikedRecipeDataModel {
   user_id: number;
   created_date: Date;
   recipe_id: string;
@@ -7,3 +7,5 @@ export default interface LikedRecipeDataModel {
   recipe_duration: number;
   recipe_people: number;
 }
+
+export default LikedRecipeDataModel;

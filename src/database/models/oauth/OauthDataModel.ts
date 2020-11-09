@@ -1,6 +1,8 @@
 import OauthType from "./OauthType";
 
-export default interface OauthDataModel {
+interface OauthDataModel {
   user_id: number;
   type: OauthType
 }
+
+export default OauthDataModel;

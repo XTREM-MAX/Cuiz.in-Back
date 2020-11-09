@@ -1,3 +1,5 @@
-export default interface RouteRemoveRequest {
+interface RouteRemoveRequest {
 	password_verify: string;
 }
+
+export default RouteRemoveRequest;

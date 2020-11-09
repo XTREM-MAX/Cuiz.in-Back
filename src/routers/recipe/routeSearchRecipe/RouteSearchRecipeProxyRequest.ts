@@ -1,5 +1,7 @@
 import RouteSearchRecipeRequest from "./RouteSearchRecipeRequest";
 
-export default interface RouteSearchRecipeProxyRequest {
+interface RouteSearchRecipeProxyRequest {
   where: Partial<RouteSearchRecipeRequest>
 }
+
+export default RouteSearchRecipeProxyRequest;

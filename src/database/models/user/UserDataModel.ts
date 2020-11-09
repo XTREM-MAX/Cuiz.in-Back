@@ -1,4 +1,4 @@
-export default interface UserDataModel {
+interface UserDataModel {
 	id?: number;
 	email: string;
 	password: string;
@@ -6,3 +6,5 @@ export default interface UserDataModel {
 	jwtSalt?: string;
 	createdAt?: Date;
 }
+
+export default UserDataModel;

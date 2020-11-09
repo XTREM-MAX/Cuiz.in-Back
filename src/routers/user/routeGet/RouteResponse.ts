@@ -1,5 +1,7 @@
-export default interface RouteGetResponse {
+interface RouteGetResponse {
 	name: string,
 	email: string,
 	creationTimestamp: number
 }
+
+export default RouteGetResponse

@@ -1,4 +1,4 @@
-export default interface RouteSearchRecipeRequest {
+interface RouteSearchRecipeRequest {
   text: string,
   time?: string, //Format : "00: 00"
   diet?: string, //"" if none
@@ -6,3 +6,5 @@ export default interface RouteSearchRecipeRequest {
   category: number[],
   page: number
 }
+
+export default RouteSearchRecipeRequest;

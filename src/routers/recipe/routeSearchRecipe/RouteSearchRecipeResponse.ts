@@ -1,4 +1,4 @@
-export default interface RouteSearchRecipeResponse {
+interface RouteSearchRecipeResponse {
   name: string,
   imageUrl?: string;
   quantity: {
@@ -15,3 +15,5 @@ export default interface RouteSearchRecipeResponse {
   nutriscore: number,
   difficulty: number,
 }
+
+export default RouteSearchRecipeResponse

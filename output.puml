@@ -1,0 +1,334 @@
+@startuml
+class DataModel<T> extends Model {
+    +model: SequelizeAttributes<T>
+}
+interface default {
+    +user_id: number
+    +device_id: string
+}
+interface default {
+    +user_id: number
+    +created_date: Date
+    +recipe_id: string
+    +recipe_name: string
+    +recipe_energy: number
+    +recipe_duration: number
+    +recipe_people: number
+}
+class LikedRecipeModel extends DataModel implements LikedRecipeDataModel {
+    +user_id: number
+    +created_date: Date
+    +recipe_id: string
+    +recipe_name: string
+    +recipe_energy: number
+    +recipe_duration: number
+    +recipe_people: number
+}
+enum OauthType {
+    GOOGLE
+    FACEBOOK
+}
+interface default {
+    +user_id: number
+    +type: OauthType
+}
+class OauthModel extends DataModel implements OauthDataModel {
+    +user_id: number
+    +type: OauthType
+}
+interface default {
+    +id?: number
+    +email: string
+    +password: string
+    +name: string
+    +jwtSalt?: string
+    +createdAt?: Date
+}
+class UserModel extends DataModel implements UserDataModel {
+    +id: number
+    +email: string
+    +password: string
+    +name: string
+    +jwtSalt: string
+}
+class DeviceModel extends DataModel implements DeviceDataModel {
+    +user_id: number
+    +device_id: string
+}
+class Logger {
+    -_name: string
+    +log(params: any[]): void
+    +error(params: any[]): void
+}
+class Database {
+    -_options: ModelOptions<DataModel<Model<any, any>>>
+    -_sequelize: Sequelize
+    -User: ModelCtor<UserModel>
+    -LikedRecipe: ModelCtor<LikedRecipeModel>
+    -Oauth: ModelCtor<OauthModel>
+    -Device: ModelCtor<DeviceModel>
+    -_logger: Logger
+    +init(removeOld?: boolean): Promise<this>
+    -_generateModel(model: typeof DataModel): ModelCtor<T>
+    +getAllLikedRecipes(userId: number): Promise<LikedRecipeDataModel[]>
+    +getLikedRecipe(recipeId: string, userId: number): Promise<LikedRecipeDataModel>
+    +addLikedRecipe(recipe: LikedRecipeDataModel): Promise<LikedRecipeDataModel>
+    +removeLikedRecipe(id: string, userId: number): Promise<number>
+    +registerUser(user: UserDataModel): Promise<UserDataModel>
+    +updateUser(user: Partial<UserDataModel>, id: number): Promise<UserDataModel>
+    +removeUser(id: number): Promise<void>
+    +getUserByEmail(email: string): Promise<UserDataModel>
+    +getUserByJwt(jwt: string): Promise<UserDataModel>
+}
+class HTTPRequest<JSONBody> {
+    +jsonBody: JSONBody
+    +request: Request<ParamsDictionary, any, any, QueryString.ParsedQs>
+    -_response: Response<any>
+    #_route: Route
+    +handleRequest(): void
+    +checkJSONBody(expectedData: (keyof JSONBody)[]): { success: boolean; payload: { [Key in keyof JSONBody]: boolean; }; }
+    +sendJsonPayload(payload: JSONResponse, code?: number): void
+    +sendJsonError(message: string, code: number, payload?: { [Key in keyof Partial<JSONBody>]: boolean; }): void
+}
+abstract class Route {
+    +logger: Logger
+    #_db: Database
+    #_needLoggedUser: boolean
+    +{abstract} handle(request: HTTPRequest<unknown>): void
+}
+class RouteIndex extends Route {
+    +handle(request: HTTPRequest<unknown>): Promise<void>
+}
+class HTTPUserRequest<JsonBody> extends HTTPRequest {
+    -_userToken: jwt.SignOptions
+    +userTokenValid: boolean
+    +user: UserDataModel
+    -_db: Database
+    +init(): Promise<void>
+    -_checkToken(): boolean
+}
+abstract class RouteProxy extends Route {
+    -_logger: Logger
+    #proxyPOSTRequest(path: string, payload: RequestData): Promise<ResponseData>
+    #proxyGETRequest(path: string): Promise<ResponseData>
+    -getAPIKey(method: "post" | "get", url: string): string
+}
+interface default {
+    +text: string
+    +time?: string
+    +diet?: string
+    +nutriscore: string
+    +category: number[]
+    +page: number
+}
+interface default {
+    +where: Partial<RouteSearchRecipeRequest>
+}
+interface default {
+    +result: { _id: string; name: string; nameSlugify: string; quantity: {    portion: string;    total: number;}; picture: boolean; category: number; active: number; numberOfIngredients: number; time: {    total: number;    preparation: number;    baking: number;}; nutriscore: number; difficulty: number; numberOfComments: numbe...
+    +limit: number
+    +count: number
+    +status: number
+}
+class RouteSearchRecipe extends RouteProxy {
+    -_expectedData: ("text" | "time" | "diet" | "nutriscore" | "category" | "page")[]
+    +handle(request: HTTPRequest<RouteSearchRecipeRequest>): Promise<void>
+}
+interface default {
+    +recipe_id: string
+}
+interface default {
+    +result: Result
+    +status: number
+}
+interface Result {
+    +_id: string
+    +name: string
+    +nameSlugify: string
+    +created: string
+    +ownerId: string
+    +quantity: Quantity
+    +picture: boolean
+    +category: number
+    +active: number
+    +avgRate?: any
+    +seasoning: Seasoning[]
+    +ingredients: Ingredients
+    +numberOfIngredients: number
+    +time: Time
+    +nutriscore: number
+    +tags: Tags2
+    +difficulty: number
+    +steps: Step[]
+    +nutriments: Nutriments
+    +viewed: number
+    +comments: any[]
+    +owner: Owner[]
+    +numberOfComments: number
+}
+interface Owner {
+    +username: string
+}
+interface Step {
+    +content: string
+    +ingredients: string[]
+}
+interface Tags2 {
+    +additives: string[]
+    +diets: string[]
+}
+interface Time {
+    +total: number
+    +preparation: number
+    +baking: number
+}
+interface Ingredients {
+    +tagsId: string[]
+    +information: Information[]
+}
+interface Information {
+    +_id: string
+    +categories: string[]
+    +name: string
+    +source: number
+    +nutriscore: number
+    +picture: string
+    +tags: Tags
+    +nutriments: Nutriments
+}
+interface Nutriments {
+    +salt: number
+    +sugar: number
+    +saturatedFat: number
+    +proteins: number
+    +carbohydrates: number
+    +fiber: number
+    +fat: number
+    +energy: number
+}
+interface Tags {
+    +allergens: string[]
+    +additives: string[]
+    +brands: string[]
+    +ingredients: string[]
+}
+interface Seasoning {
+    +quantity: string
+    +ingredient: string
+}
+interface Quantity {
+    +portion: string
+    +total: number
+}
+class RouteAddLikedRecipe extends RouteProxy {
+    -_expectedData: "recipe_id"[]
+    +handle(request: HTTPUserRequest<RouteAddLikedRecipeRequest>): Promise<void>
+}
+interface default {
+    +recipe_id: string
+}
+class RouteRemoveLikedRecipe extends RouteProxy {
+    -_expectedData: "recipe_id"[]
+    +handle(request: HTTPUserRequest<RouteRemoveLikedRecipeRequest>): Promise<void>
+}
+class RouteGetLikedRecipe extends Route {
+    +handle(request: HTTPUserRequest<unknown>): Promise<void>
+}
+interface default {
+    +recipe_id: string
+}
+class RouteAddLikedRecipe extends RouteProxy {
+    -_expectedData: "recipe_id"[]
+    +handle(request: HTTPRequest<RouteGetRecipeDetailsRequest>): Promise<void>
+}
+interface default {
+    +recipe_id: string
+}
+class RouteGetLikedRecipe extends Route {
+    -_expectedData: "recipe_id"[]
+    +handle(request: HTTPUserRequest<RouteGetLikedRecipeRequest>): Promise<void>
+}
+interface default {
+    +name: string
+    +imageUrl?: string
+    +quantity: { portion: string; total: number; }
+    +category: number
+    +numberOfIngredients: number
+    +time: { total: number; preparation: number; baking: number; }
+    +nutriscore: number
+    +difficulty: number
+}
+interface default {
+    +recipe: RouteSearchRecipeResponse
+    +page: number
+    +index: number
+}
+class RouteRandomRecipe extends RouteProxy {
+    +handle(request: HTTPRequest<null>): Promise<void>
+}
+interface default {
+    +password: string
+    +name: string
+    +email: string
+}
+interface default {
+    +token: string
+    +email: string
+    +name: string
+}
+class RouteRegister extends Route {
+    -_expectedData: ("password" | "name" | "email")[]
+    +handle(request: HTTPRequest<RouteRegisterRequest>): Promise<void>
+}
+interface default {
+    +email: string
+    +password: string
+}
+class RouteConnexion extends Route {
+    -_expectedData: ("password" | "email")[]
+    +handle(request: HTTPRequest<RouteConnexionRequest>): Promise<void>
+    -invalidCredsError(request: HTTPRequest<RouteConnexionRequest>): void
+}
+interface default {
+    +email: string
+    +password: string
+    +name: string
+    +password_verify: string
+}
+class RouteUpdate extends RouteProxy {
+    -_expectedData: ("password" | "name" | "email" | "password_verify")[]
+    +handle(request: HTTPUserRequest<RouteUpdateRequest>): Promise<void>
+}
+interface default {
+    +name: string
+    +email: string
+    +creationTimestamp: number
+}
+class RouteGet extends RouteProxy {
+    +handle(request: HTTPUserRequest<unknown>): Promise<void>
+}
+interface default {
+    +password_verify: string
+}
+class RouteRemove extends RouteProxy {
+    -_expectedData: "password_verify"[]
+    +handle(request: HTTPUserRequest<RouteRemoveRequest>): Promise<void>
+}
+class RouteManager {
+    +router: Router
+    -_db: Database
+    -_routes: { [key: string]: { route: Route; type: "POST" | "GET"; protected?: boolean; }; }
+    -_logger: Logger
+    +init(db: Database): Promise<void>
+    -_setRoutes(): void
+}
+class App {
+    +app: express.Application
+    -_routeManager: RouteManager
+    -_database: Database
+    -_logger: Logger
+    +init(): Promise<void>
+    -_initDatabase(): Promise<Database>
+    -_onListening(): void
+}
+@enduml

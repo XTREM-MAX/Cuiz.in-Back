@@ -1,3 +1,5 @@
-export default interface RouteRemoveLikedRecipeRequest {
+interface RouteRemoveLikedRecipeRequest {
   recipe_id: string;
 }
+
+export default RouteRemoveLikedRecipeRequest

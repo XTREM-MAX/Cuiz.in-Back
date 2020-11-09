@@ -1,5 +1,7 @@
-export default interface RouteRegisterRequest {
+interface RouteRegisterRequest {
 	password: string;
 	name: string;
 	email: string;
 }
+
+export default RouteRegisterRequest;

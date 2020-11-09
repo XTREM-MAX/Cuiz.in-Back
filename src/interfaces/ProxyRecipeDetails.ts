@@ -1,7 +1,9 @@
-export default interface ProxyRecipeDetails {
+interface ProxyRecipeDetails {
   result: Result;
   status: number;
 }
+
+export default ProxyRecipeDetails;
 
 interface Result {
   _id: string;
