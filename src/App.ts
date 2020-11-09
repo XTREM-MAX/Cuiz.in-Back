@@ -21,8 +21,6 @@ class App {
 		this.app.use(express.urlencoded({ extended: false }));
 		this.app.use(cookieParser());
 
-		this.app.use(express.static(path.join(__dirname, 'public')));
-
 		this._database = await this._initDatabase();
 
 		await this._routeManager.init(this._database);
