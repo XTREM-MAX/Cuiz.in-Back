@@ -1,4 +1,3 @@
-import Route from "../../Route";
 import HTTPRequest from "../../http/HTTPRequest";
 import RouteProxy from "../../RouteProxy";
 import RouteSearchRecipeProxyRequest from "../routeSearchRecipe/RouteSearchRecipeProxyRequest";

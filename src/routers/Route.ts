@@ -3,15 +3,12 @@ import HTTPRequest from './http/HTTPRequest';
 import Logger from "../utils/Logger";
 
 abstract class Route {
-	public logger: Logger;
+	public logger: Logger = new Logger(this);
 
 	constructor(
 		protected _db: Database,
-		_name: string,
 		protected _needLoggedUser: boolean = false
-	) { 
-		this.logger = new Logger(_name);
-	};
+	) {};
 
 	public abstract handle(request: HTTPRequest<unknown>): void;
 }

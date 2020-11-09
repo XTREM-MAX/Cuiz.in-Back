@@ -30,7 +30,7 @@ class Database {
 	private readonly Oauth = this._generateModel<OauthModel, OauthDataModel>(OauthModel as typeof DataModel);
 	private readonly Device = this._generateModel<DeviceModel, DeviceDataModel>(DeviceModel as typeof DataModel);
 
-	private readonly _logger = new Logger("Database");
+	private readonly _logger = new Logger(this);
 
 	public async init(removeOld = false) {
 		try {

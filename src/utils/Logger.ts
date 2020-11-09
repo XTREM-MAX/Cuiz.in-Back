@@ -1,7 +1,10 @@
 class Logger {
+	private _name: string
 	constructor(
-		private _name: string
-	) {}
+		_instantiator: object
+	) {
+		this._name = Object.getPrototypeOf(_instantiator).constructor.name;
+	}
 
 	log(...params: any[]) {
 		console.log(`[${this._name}]`, ...params);

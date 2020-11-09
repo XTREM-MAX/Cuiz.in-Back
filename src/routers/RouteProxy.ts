@@ -3,10 +3,21 @@ import fetch from "node-fetch";
 import { AES } from "crypto-js";
 import * as url from "url";
 import Logger from '../utils/Logger';
+import Database from '../database/Database';
+import AppKey from "../utils/AppKey";
 
 abstract class RouteProxy extends Route {
 
-	private _logger = new Logger("RouteProxy");
+
+	constructor(
+		_db: Database,
+		_needLoggedUser: boolean = false,
+		private _appKey: AppKey
+	) { 
+		super(_db, _needLoggedUser);
+	};
+
+	private _logger = new Logger(this);
 
 	protected async proxyPOSTRequest<RequestData, ResponseData>(path: string, payload: RequestData): Promise<ResponseData> {
 		try {
@@ -50,7 +61,7 @@ abstract class RouteProxy extends Route {
 			timestamp: Date.now(),
 			baseURL: "https://api.nutriwi.com/v1/",
 			url: url,
-			appId: "04xQbwwmEgECnCgYIARAAGAQSNwF",
+			appId: this._appKey.get(),
 			method: method
 		}
 		return AES.encrypt(JSON.stringify(aesQuery), "sq5lxSsDyzxWla5G-UTSFATZskrxbJmHsimvKCr1uEB8-8j93WPaZiRdYFL3nwFA9k").toString()

@@ -11,7 +11,7 @@ class App {
 	public app: express.Application = express();
 	private _routeManager: RouteManager = new RouteManager();
 	private _database: Database;
-	private _logger: Logger = new Logger("App");
+	private _logger: Logger = new Logger(this);
 
 	public async init() {
 		dotenv.config();
