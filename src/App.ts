@@ -15,7 +15,7 @@ class App {
 	public async init() {
 		dotenv.config();
 
-		this.app.use(cors({ origin: ["cuiz.in"] }));
+		this.app.use(cors());
 		this.app.use(express.json());
 		this.app.use(express.urlencoded({ extended: false }));
 		this.app.use(cookieParser());
