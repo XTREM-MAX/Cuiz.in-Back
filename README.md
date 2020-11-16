@@ -83,10 +83,9 @@
   * Description : Supprime une recette de l'utilisateur depuis son id
   * Ne fais rien si l'ID n'existe pas
 
- #### /user/update?password_verify= POST (Authorization: token)
+ #### /user/update POST (Authorization: token)
   * [Fichier](./src/routers/user/routeUpdate/RouteUpdate.ts)
   * Description : Met à jour un nouvel utilisateur, génère un nouveau 'salt' pour le token si le mot de passe est mis à jour ce qui rend invalide tous les anciens tokens
-  * Doit spécifier un champ password_verify identique au mot de passe actuel, Renvoie une erreur 403 si il n'est pas spécifié ou si il n'est pas valide 
   * Paramètres : email, password, name (met à jour un ou plusieurs champs (optionels))
   * Renvoie une erreur 460 si l'email est spécifié et qu'il existe déjà
   * Renvoie un code 200 avec le nouveau token en cas de nouveau mot de passe ou l'ancien token
@@ -95,7 +94,6 @@
   * [Fichier](./src/routers/user/routeUpdate/RouteUpdate.ts)
   * Description : Récupère toute les informations sur l'utilisateur actuel (email, name, createdTimestamp)
 
- #### /user/remove?password_verify= GET (Authorization: token)
+ #### /user/remove GET (Authorization: token)
   * [Fichier](./src/routers/user/routeRemove/RouteRemove.ts)
   * Description : Supprime un utilisateur
-  * Doit spécifier un champ password_verify identique au mot de passe actuel, Renvoie une erreur 403 si il n'est pas spécifié ou si il n'est pas valide 

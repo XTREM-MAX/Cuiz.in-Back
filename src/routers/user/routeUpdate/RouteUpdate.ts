@@ -13,19 +13,10 @@ import * as jwt from "jsonwebtoken";
  */
 class RouteUpdate extends RouteProxy {
 
-	private readonly _expectedData: (keyof RouteUpdateRequest)[] = ["password_verify"];
+	private readonly _expectedData: void;
 
 	public async handle(request: HTTPUserRequest<RouteUpdateRequest>) {
 		try {
-			const checkResponse = request.checkJSONBody(this._expectedData);
-			if (!checkResponse.success) {
-				request.sendJsonError("", 400, checkResponse.payload);
-				return;
-			} 
-			if (!bcrypt.compareSync(request.jsonBody.password_verify, request.user.password)) {
-				request.sendJsonError("Wrong Password", 403);
-				return;
-			}
 
 			const userParams: UserDataModel = {
 				password: request.jsonBody.password,
