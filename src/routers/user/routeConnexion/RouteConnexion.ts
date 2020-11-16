@@ -23,8 +23,11 @@ class RouteConnexion extends Route {
 
 		try {
 			const user = await this._db.getUserByEmail(request.jsonBody.email);
-			if (user === null || !await bcrypt.compare(request.jsonBody.password, user.password)) {
-				this.invalidCredsError(request);
+			if (user === null) {
+				this.invalidEmailError(request);
+				return;
+			} else if (!await bcrypt.compare(request.jsonBody.password, user.password)) {
+				this.invalidPassError(request);
 				return;
 			}
 
@@ -47,8 +50,11 @@ class RouteConnexion extends Route {
 		}
 	}
 
-	private invalidCredsError(request: HTTPRequest<RouteConnexionRequest>) {
-		request.sendJsonError("Invalid credentials", 451);
+	private invalidPassError(request: HTTPRequest<RouteConnexionRequest>) {
+		request.sendJsonError("Invalid Password", 451);
+	}
+	private invalidEmailError(request: HTTPRequest<RouteConnexionRequest>) {
+		request.sendJsonError("Invalid Email", 452);
 	}
 
 }

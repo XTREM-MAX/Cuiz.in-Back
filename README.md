@@ -35,7 +35,8 @@
   * Description : Connecte un nouvel utilisateur et renvoie un token de connexion
   * Paramètres : email, password
   * renvoie un code 200 avec un token, l'email et le nom de l'utilisateur en JSON
-  * renvoie une erreur 451 dans le cas où le mdp/email ne correspond pas ou si il n'y a pas d'utilisateur avec ce mail
+  * renvoie une erreur 451 dans le cas où le mdp n'existe pas
+  * renvoie une erreur 452 dans le cas où le mail n'existe pas
 
  #### /user/register POST
   * [Fichier](./src/routers/user/routeRegister/RouteRegister.ts)
@@ -91,7 +92,7 @@
   * Renvoie un code 200 avec le nouveau token en cas de nouveau mot de passe ou l'ancien token
 
  #### /user/get GET (Authorization: token)
-  * [Fichier](./src/routers/user/routeUpdate/RouteUpdate.ts)
+  * [Fichier](./src/routers/user/routeGet/RouteGet.ts)
   * Description : Récupère toute les informations sur l'utilisateur actuel (email, name, createdTimestamp)
 
  #### /user/remove GET (Authorization: token)
