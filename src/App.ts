@@ -1,11 +1,10 @@
 import * as express from "express";
-import * as path from "path";
 import * as cookieParser from 'cookie-parser';
-import * as logger from 'morgan';
 import * as dotenv from "dotenv";
 import RouteManager from "./routers/RouteManager";
 import Database from "./database/Database";
 import Logger from "./utils/Logger";
+import * as cors from "cors";
 
 class App {
 	public app: express.Application = express();
@@ -16,7 +15,7 @@ class App {
 	public async init() {
 		dotenv.config();
 
-		this.app.use(logger('dev'));
+		this.app.use(cors({ origin: ["cuiz.in"] }));
 		this.app.use(express.json());
 		this.app.use(express.urlencoded({ extended: false }));
 		this.app.use(cookieParser());
