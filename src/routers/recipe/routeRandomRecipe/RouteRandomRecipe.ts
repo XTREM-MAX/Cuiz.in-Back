@@ -1,26 +1,24 @@
 import HTTPRequest from "../../http/HTTPRequest";
 import RouteProxy from "../../RouteProxy";
-import RouteSearchRecipeProxyRequest from "../routeSearchRecipe/RouteSearchRecipeProxyRequest";
 import RouteSearchRecipeProxyResponse from "../routeSearchRecipe/RouteSearchRecipeProxyResponse"
+import RouteSearchRecipeRequest from "../routeSearchRecipe/RouteSearchRecipeRequest";
 import RouteRandomRecipeResponse from "./RouteRandomRecipeResponse";
 
 class RouteRandomRecipe extends RouteProxy {
 
 	public async handle(request: HTTPRequest<null>) {
 
-		const randomPage = Math.floor(Math.random() * 14 + 1); //14 pages disponibles 260 recettes pour 12 par requettes
+		const randomPage = Math.round(Math.random() * 14 + 1); //14 pages disponibles 260 recettes pour 12 par requettes
 
 		try {
-			const allRecipe = await this.proxyPOSTRequest<RouteSearchRecipeProxyRequest, RouteSearchRecipeProxyResponse>("recipes/search", {
-				where: {
-					text: "",
-					page: randomPage,
-					category: [0],
-					nutriscore: "",
-					time: "00:00"
-				}
-      });
-			const randomRecipe = Math.floor(Math.random() * allRecipe.limit);
+			const allRecipe = await this.proxyPOSTRequest<Partial<RouteSearchRecipeRequest>, RouteSearchRecipeProxyResponse>("recipes/search", {
+				text: "",
+				page: randomPage,
+				category: [0],
+				nutriscore: "",
+				time: "00:00"
+			});
+			const randomRecipe = Math.round(Math.random() * allRecipe.limit);
 			const res: RouteRandomRecipeResponse = {
 				index: randomRecipe,
 				page: randomPage,

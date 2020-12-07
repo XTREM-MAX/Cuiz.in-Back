@@ -1,7 +1,6 @@
 import RouteProxy from "../../RouteProxy";
 import HTTPRequest from "../../http/HTTPRequest";
 import RouteSearchRecipeRequest from "./RouteSearchRecipeRequest";
-import RouteSearchRecipeProxyRequest from "./RouteSearchRecipeProxyRequest";
 import RouteSearchRecipeProxyResponse from "./RouteSearchRecipeProxyResponse";
 
 /**
@@ -18,9 +17,8 @@ class RouteSearchRecipe extends RouteProxy {
 		}
 
 		try {
-
-			const res = await this.proxyPOSTRequest<RouteSearchRecipeProxyRequest, RouteSearchRecipeProxyResponse>("recipes/search", {
-				where: request.jsonBody,
+			const res = await this.proxyPOSTRequest<Partial<RouteSearchRecipeRequest>, RouteSearchRecipeProxyResponse>("recipes/search", {
+			  ...request.jsonBody,
 			});
 			request.sendJsonPayload(res);
 			
