@@ -27,8 +27,8 @@ class RouteManager {
 	public router: Router = Router();
 	private _db: Database;
 
-	private _routes: { 
-		[key: string]: { 
+	private _routes: {
+		[key: string]: {
 			route: typeof Route | typeof RouteProxy, 
 			type: "POST"|"GET", 
 			protected?: boolean 
