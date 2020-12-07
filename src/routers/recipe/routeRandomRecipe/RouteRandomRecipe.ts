@@ -19,13 +19,12 @@ class RouteRandomRecipe extends RouteProxy {
 					nutriscore: "",
 					time: "00:00"
 				}
-			});
+      });
 			const randomRecipe = Math.floor(Math.random() * allRecipe.limit);
-
 			const res: RouteRandomRecipeResponse = {
 				index: randomRecipe,
 				page: randomPage,
-				recipe: allRecipe.result[randomRecipe]
+				recipe: allRecipe.recipes[randomRecipe]
 			}
 
 			request.sendJsonPayload<RouteRandomRecipeResponse>(res);

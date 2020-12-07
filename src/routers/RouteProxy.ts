@@ -21,7 +21,7 @@ abstract class RouteProxy extends Route {
 
 	protected async proxyPOSTRequest<RequestData, ResponseData>(path: string, payload: RequestData): Promise<ResponseData> {
 		try {
-			const res = await fetch(url.resolve("https://api.nutriwi.com/v1/", path), {
+			const res = await fetch(url.resolve("https://api.nutriwi.com/", path), {
 				method: "POST",
 				headers: {
 					"x-api-key": this.getAPIKey("post", path),
@@ -31,7 +31,7 @@ abstract class RouteProxy extends Route {
 				body: JSON.stringify(payload)
 			});
 			this._logger.log("[Proxy POST Request]", res.url, res.status, res.statusText);
-			return await res.json()
+      return (await res.json()).response;
 		} catch (e) {
 			this._logger.error(e);
 			throw "Proxy Request Error";
@@ -40,7 +40,7 @@ abstract class RouteProxy extends Route {
 
 	protected async proxyGETRequest<ResponseData>(path: string): Promise<ResponseData> {
 		try {
-			const res = await fetch(url.resolve("https://api.nutriwi.com/v1/", path), {
+			const res = await fetch(url.resolve("https://api.nutriwi.com/", path), {
 				method: "GET",
 				headers: {
 					"x-api-key": this.getAPIKey("get", path),
@@ -49,7 +49,7 @@ abstract class RouteProxy extends Route {
 				}
 			});
 			this._logger.log("[Proxy GET Request]", res.url, res.status, res.statusText);
-			return await res.json()
+      return (await res.json()).response;
 		} catch (e) {
 			this._logger.error(e);
 			throw "Proxy Request Error";
@@ -59,7 +59,7 @@ abstract class RouteProxy extends Route {
 	private getAPIKey(method: "post" | "get", url: string): string {
 		const aesQuery = {
 			timestamp: Date.now(),
-			baseURL: "https://api.nutriwi.com/v1/",
+			baseURL: "https://api.nutriwi.com/",
 			url: url,
 			appId: this._appKey.get(),
 			method: method

@@ -1,5 +1,5 @@
 interface RouteSearchRecipeProxyResponse {
-  result: {
+  recipes: {
     _id: string,
     name: string,
     nameSlugify: string,
