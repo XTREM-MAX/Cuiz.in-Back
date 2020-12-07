@@ -1,5 +1,5 @@
 interface ProxyRecipeDetails {
-  result: Result;
+  recipe: Result;
   status: number;
 }
 

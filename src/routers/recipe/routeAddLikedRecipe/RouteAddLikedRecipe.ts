@@ -28,14 +28,14 @@ class RouteAddLikedRecipe extends RouteProxy {
 			}
 
 			const path = url.resolve("recipe/", request.jsonBody.recipe_id);
-			const recipe = await this.proxyGETRequest<ProxyRecipeDetails>(path);
-			
+      const recipe = (await this.proxyGETRequest<ProxyRecipeDetails>(path)).recipe;
+      this.logger.log(recipe);
 			const likedRecipe = await this._db.addLikedRecipe({
 				created_date: new Date(),
-				recipe_duration: recipe.result.time.total,
-				recipe_name: recipe.result.name,
-				recipe_people: parseInt(recipe.result.quantity.portion),
-				recipe_energy: recipe.result.nutriments.energy,
+				recipe_duration: recipe.time.total,
+				recipe_name: recipe.name,
+				recipe_people: parseInt(recipe.quantity.portion),
+				recipe_energy: recipe.nutriments.energy,
 				recipe_id: request.jsonBody.recipe_id,
 				user_id: request.user.id,
 			});
