@@ -17,7 +17,7 @@ class RouteAddLikedRecipe extends RouteProxy {
       return;
     }
 
-    const recipe: ProxyRecipeDetails = await this.proxyGETRequest<ProxyRecipeDetails>(urlResolve("recipes/", request.jsonBody.recipe_id));
+    const recipe: ProxyRecipeDetails = await this.proxyGETRequest<ProxyRecipeDetails>(urlResolve("recipe/", request.jsonBody.recipe_id));
     
     request.sendJsonPayload<ProxyRecipeDetails>(recipe);
   }
