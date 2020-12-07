@@ -27,7 +27,7 @@ class RouteAddLikedRecipe extends RouteProxy {
 				return;
 			}
 
-			const path = url.resolve("recipes/", request.jsonBody.recipe_id);
+			const path = url.resolve("recipe/", request.jsonBody.recipe_id);
 			const recipe = await this.proxyGETRequest<ProxyRecipeDetails>(path);
 			
 			const likedRecipe = await this._db.addLikedRecipe({
